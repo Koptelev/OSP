@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Своя игра — СуперСопровождение</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+  <header class="w-full text-white py-2 text-center" style="background:none;box-shadow:none;">
+    <div class="logo">СВО<span style="color:#4fc3ff;">Я</span> <span class="yellow">Игра</span></div>
+    <div class="logo-bar"></div>
+  </header>
+  <main class="flex-1 w-full">
+    <div class="jeopardy-board">
+      <!-- Categories -->
+      <div class="category">Лиды</div>
+      <div class="category">Поставки</div>
+      <div class="category">Телефония</div>
+      <div class="category">Инициативы</div>
+      <div class="category">Командный дух</div>
+      <div class="category">Игровые сюрпризы</div>
+      <!-- Questions -->
+      <div class="question" data-points="10" data-category="Лиды" data-task="Завести за неделю лидов более чем норма на 1%">10</div>
+      <div class="question" data-points="10" data-category="Поставки" data-task="Обработать 20% больше поставок за неделю">10</div>
+      <div class="question" data-points="10" data-category="Телефония" data-task="Обработать 15% больше звонков за неделю">10</div>
+      <div class="question" data-points="10" data-category="Инициативы" data-task="Оставить 3 благодарности в Staff">10</div>
+      <div class="question" data-points="10" data-category="Командный дух" data-task="Опубликовать историю в Staff">10</div>
+      <div class="question" data-points="10" data-category="Игровые сюрпризы" data-task="Карточка 'За красивые глаза'">10</div>
+      <div class="question" data-points="20" data-category="Лиды" data-task="Завести за неделю лидов более чем норма на 2%">20</div>
+      <div class="question" data-points="20" data-category="Поставки" data-task="Самое большое кол-во часов на дежурстве за месяц">20</div>
+      <div class="question" data-points="20" data-category="Телефония" data-task="Смена участка на 4 часа">20</div>
+      <div class="question" data-points="20" data-category="Инициативы" data-task="Поделиться лайфхаком в Staff">20</div>
+      <div class="question" data-points="20" data-category="Командный дух" data-task="Провести активность на сплочение (оценка 3/5)">20</div>
+      <div class="question" data-points="20" data-category="Игровые сюрпризы" data-task="Карточка '+1' (доп. задание)">20</div>
+      <div class="question" data-points="30" data-category="Лиды" data-task="Завести за неделю лидов более чем норма на 3%">30</div>
+      <div class="question" data-points="30" data-category="Поставки" data-task="Получить именной отзыв">30</div>
+      <div class="question" data-points="30" data-category="Телефония" data-task="Прослушать звонок коллеги и дать ОС">30</div>
+      <div class="question" data-points="30" data-category="Инициативы" data-task="Написать рекомендацию в Staff">30</div>
+      <div class="question" data-points="30" data-category="Командный дух" data-task="Провести активность на сплочение (оценка 4/5)">30</div>
+      <div class="question" data-points="30" data-category="Игровые сюрпризы" data-task="Придумать задание коллеге">30</div>
+      <div class="question" data-points="40" data-category="Лиды" data-task="Завести за неделю лидов более чем норма на 4%">40</div>
+      <div class="question" data-points="40" data-category="Поставки" data-task="Завести лид по любому продукту за неделю">40</div>
+      <div class="question" data-points="40" data-category="Телефония" data-task="Перевыполнить норму на 10% за неделю">40</div>
+      <div class="question" data-points="40" data-category="Инициативы" data-task="Составить план оптимизации участка">40</div>
+      <div class="question" data-points="40" data-category="Командный дух" data-task="Провести активность на сплочение (оценка 5/5)">40</div>
+      <div class="question" data-points="40" data-category="Игровые сюрпризы" data-task="Оставить или передать карточку">40</div>
+      <div class="question" data-points="50" data-category="Лиды" data-task="Завести за неделю лидов более чем норма на 5%">50</div>
+      <div class="question" data-points="50" data-category="Поставки" data-task="Завести 6 лидов по Компасу за неделю">50</div>
+      <div class="question" data-points="50" data-category="Телефония" data-task="Завести 6 лидов по Фокусу за неделю">50</div>
+      <div class="question" data-points="50" data-category="Инициативы" data-task="Подготовить список проблем и решений">50</div>
+      <div class="question" data-points="50" data-category="Командный дух" data-task="Завести 6 лидов по Маниплейс за неделю">50</div>
+      <div class="question" data-points="50" data-category="Игровые сюрпризы" data-task="Кот в мешке">50</div>
+      <div class="question" data-points="100" data-category="Лиды" data-task="Суперзадание: Первому смельчаку">100</div>
+      <div class="question" data-points="100" data-category="Поставки" data-task="Суперзадание: За смелость">100</div>
+      <div class="question" data-points="100" data-category="Телефония" data-task="Суперзадание: За смелость">100</div>
+      <div class="question" data-points="100" data-category="Инициативы" data-task="Провести собрание по рассылкам">100</div>
+      <div class="question" data-points="100" data-category="Командный дух" data-task="Организовать тимбилдинг">100</div>
+      <div class="question" data-points="100" data-category="Игровые сюрпризы" data-task="Аукцион: Выполнить задание от руководителя">100</div>
+    </div>
+    <div class="w-full flex justify-center mt-6">
+      <button id="showResultsBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-lg transition ml-4">Показать результаты</button>
+    </div>
+    <section id="resultsSection" class="w-full flex flex-col items-center mt-8 hidden">
+      <div class="bg-white bg-opacity-20 rounded-lg shadow-lg p-6 max-w-3xl w-full">
+        <h2 class="text-2xl font-bold text-center mb-4 text-white" style="text-shadow:0 0 8px #1e40ff">Результаты недели</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-white text-lg" id="resultsTable">
+            <thead>
+              <tr style="background:rgba(30,64,255,0.25);">
+                <th class="px-4 py-2">Фамилия</th>
+                <th class="px-4 py-2">Баллы</th>
+                <th class="px-4 py-2">Выполнено заданий</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <h2 class="text-2xl font-bold mb-4" id="modalCategory"></h2>
+        <p class="text-lg mb-4" id="modalTask"></p>
+        <p class="text-lg font-bold mb-4" id="modalPoints"></p>
+        <input type="text" id="surnameInput" placeholder="Введите фамилию" class="mb-4 px-3 py-2 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" style="font-size:1.1rem; font-family: 'Montserrat', Arial, sans-serif;" />
+        <div class="flex justify-center gap-4">
+          <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" id="acceptTaskBtn">Принять задание</button>
+          <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" id="closeModalBtn">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="w-full bg-blue-900 text-white py-4 text-center">
+    <p>© 2025 Компания | Разработано для лучших отделов сопровождения</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script.js"></script>
+</body>
+</html> 
