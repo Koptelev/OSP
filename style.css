@@ -1,10 +1,12 @@
 body {
-  background: #0a23c2;
+  background: linear-gradient(135deg, #0a23c2 0%, #1e40ff 100%);
   font-family: 'Montserrat', Arial, sans-serif;
   min-height: 100vh;
   margin: 0;
   overflow-x: hidden;
   position: relative;
+  /* Мягкие световые пятна */
+  /* Можно добавить псевдоэлементы для glow */
 }
 .star {
   position: absolute;
@@ -17,54 +19,94 @@ body {
 }
 .jeopardy-board {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 18px;
-  max-width: 1810px;
-  margin: 40px auto 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 22px;
+  max-width: 1400px;
+  margin: 60px auto 0 auto;
   z-index: 1;
+  padding: 0 12px;
+  animation: fadeIn 1.2s cubic-bezier(.4,2,.6,1);
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(40px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 .category, .question {
-  min-width: 248px;
-  max-width: 248px;
+  min-width: 200px;
+  max-width: 300px;
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
   justify-self: center;
 }
 .category {
-  background: linear-gradient(90deg, #2e5be4 60%, #0a23c2 100%);
+  background: rgba(46,91,228,0.75);
   color: #fff;
   font-weight: 700;
   text-align: center;
-  padding: 28px 0;
-  border-radius: 8px;
-  font-size: 2rem;
+  padding: 18px 8px;
+  border-radius: 18px;
+  font-size: 1rem;
   letter-spacing: 1px;
-  box-shadow: 0 0 24px 6px #1e40ff, 0 2px 12px 0 #0008;
-  text-shadow: 0 0 12px #fff, 0 0 4px #fff;
-  border: none;
+  box-shadow: 0 4px 32px 0 #1e40ff80, 0 2px 12px 0 #0004;
+  text-shadow: 0 0 8px #fff, 0 0 2px #fff;
+  border: 1.5px solid rgba(255,255,255,0.18);
   margin-bottom: 0;
-  transition: none;
+  transition: box-shadow 0.25s, background 0.25s, font-size 0.2s, transform 0.18s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+  hyphens: none;
+  min-height: 64px;
+  max-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  position: relative;
+  cursor: pointer;
+  animation: popIn 0.7s cubic-bezier(.4,2,.6,1);
+}
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.category:hover {
+  box-shadow: 0 0 40px 10px #4fc3ffcc, 0 2px 16px 0 #000a;
+  background: linear-gradient(90deg, #4fc3ff 60%, #2e5be4 100%);
+  color: #fff;
+  transform: scale(1.06) rotate(-1deg);
+  z-index: 2;
 }
 .question {
-  background: linear-gradient(145deg, #1e40ff 60%, #0a23c2 100%);
+  background: rgba(30,64,255,0.85);
   color: #fff;
-  font-size: 2rem;
+  font-size: 1.15rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 80px;
+  height: 70px;
   cursor: pointer;
-  border-radius: 8px;
-  box-shadow: 0 0 18px 6px #1e40ff, 0 2px 12px 0 #0008;
-  text-shadow: 0 0 12px #fff, 0 0 4px #fff;
-  border: none;
-  transition: none;
+  border-radius: 14px;
+  box-shadow: 0 2px 18px 4px #1e40ff80, 0 2px 12px 0 #0004;
+  text-shadow: 0 0 8px #fff, 0 0 2px #fff;
+  border: 1.5px solid rgba(255,255,255,0.13);
+  transition: box-shadow 0.22s, background 0.22s, transform 0.15s;
   margin-bottom: 0;
+  backdrop-filter: blur(2px);
+  animation: popIn 0.8s cubic-bezier(.4,2,.6,1);
+  min-height: 64px;
+  max-height: 64px;
 }
 .question:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.18);
+  box-shadow: 0 0 32px 8px #ffd600cc, 0 2px 16px 0 #000a;
+  background: linear-gradient(145deg, #ffd600 60%, #1e40ff 100%);
+  color: #1e40ff;
+  transform: scale(1.08) rotate(1deg);
+  z-index: 2;
 }
 .question.disabled {
   background: #2d3a7a;
@@ -85,31 +127,37 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(2.5px);
 }
 .modal-content {
-  background: #f1f5f9;
-  padding: 32px 24px 24px 24px;
-  border-radius: 18px;
-  max-width: 480px;
-  width: 95%;
+  background: rgba(241,245,249,0.95);
+  padding: 36px 28px 28px 28px;
+  border-radius: 22px;
+  max-width: 540px;
+  width: 98%;
   text-align: center;
-  box-shadow: 0 8px 32px 0 rgba(30, 41, 59, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(30, 41, 59, 0.18);
   font-family: 'Montserrat', Arial, sans-serif;
   animation: modalIn 0.25s cubic-bezier(.4,2,.6,1) both;
+  border: 1.5px solid rgba(30,64,255,0.13);
+  backdrop-filter: blur(8px);
+  overflow-y: auto;
+  max-height: 90vh;
 }
 @keyframes modalIn {
   0% { opacity: 0; transform: translateY(40px) scale(0.95); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
-.leaderboard {
-  display: none;
-}
 header {
-  background: none;
-  box-shadow: none;
-  margin-top: 24px;
+  background: rgba(10,35,194,0.85);
+  box-shadow: 0 2px 24px 0 #1e40ff44;
+  margin-top: 0;
   margin-bottom: 0;
   text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(3px);
 }
 .logo {
   font-size: 3.2rem;
@@ -121,6 +169,10 @@ header {
   line-height: 1;
   font-family: 'Montserrat', Arial, sans-serif;
   display: inline-block;
+  background: linear-gradient(90deg, #4fc3ff 40%, #ffd600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .logo .yellow {
   color: #ffd600;
@@ -133,8 +185,86 @@ header {
 .logo-bar {
   width: 120px;
   height: 6px;
-  background: #ffd600;
+  background: linear-gradient(90deg, #ffd600 0%, #4fc3ff 100%);
   margin: 0 auto 0.2em auto;
   border-radius: 3px;
   box-shadow: 0 0 8px #ffd600;
+}
+button, .bg-blue-500, .bg-green-500, .bg-red-500 {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px 0 #1e40ff44;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.13s;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 12px 28px;
+  margin: 0 4px;
+  background: linear-gradient(90deg, #4fc3ff 0%, #2e5be4 100%);
+  color: #fff;
+  text-shadow: 0 0 6px #1e40ff88;
+}
+button:hover, .bg-blue-500:hover, .bg-green-500:hover, .bg-red-500:hover {
+  background: linear-gradient(90deg, #ffd600 0%, #4fc3ff 100%);
+  color: #1e40ff;
+  box-shadow: 0 0 32px 8px #ffd600cc, 0 2px 16px 0 #000a;
+  transform: scale(1.06);
+}
+input[type="text"] {
+  border-radius: 8px;
+  border: 1.5px solid #4fc3ff;
+  padding: 10px 14px;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 2px 8px 0 #1e40ff22;
+  transition: border 0.18s, box-shadow 0.18s;
+}
+input[type="text"]:focus {
+  border: 1.5px solid #ffd600;
+  box-shadow: 0 0 12px #ffd60088;
+  outline: none;
+}
+footer {
+  background: linear-gradient(90deg, #1e40ff 0%, #0a23c2 100%);
+  color: #fff;
+  padding: 24px 0 12px 0;
+  text-align: center;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 -2px 24px 0 #1e40ff44;
+  margin-top: 40px;
+}
+@media (max-width: 900px) {
+  .jeopardy-board {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 98vw;
+  }
+  .category, .question {
+    min-width: 140px;
+    max-width: 98vw;
+    font-size: 1.05rem;
+    padding: 14px 4px;
+  }
+  .category, .question {
+    min-height: 44px;
+    max-height: 44px;
+  }
+  .category {
+    font-size: 0.85rem;
+  }
+  .question {
+    font-size: 0.95rem;
+  }
+  .modal-content {
+    padding: 18px 6px 12px 6px;
+    max-width: 98vw;
+    max-height: 90vh;
+  }
+  .logo {
+    font-size: 2rem;
+  }
 } 
