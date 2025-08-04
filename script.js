@@ -6,10 +6,10 @@ window.onload = function() {
   // Обновленный массив вопросов с 3 категориями
   const questions = [
     // Поставки
-    { id: 1, category: 'Поставки', task: 'Обработать на 15% больше поставок, чем назначено за неделю', points: 10 },
-    { id: 2, category: 'Поставки', task: 'Обработать на 17% больше поставок, чем назначено за неделю', points: 20 },
-    { id: 3, category: 'Поставки', task: 'Обработать на 20% больше поставок, чем назначено за неделю', points: 30 },
-    { id: 4, category: 'Поставки', task: 'Обработать на 23% больше поставок, чем назначено за неделю', points: 40 },
+    { id: 1, category: 'Поставки', task: 'Обработать на 15% больше поставок, чем назначено за неделю (перевыполнение за счет новых поставок)', points: 10 },
+    { id: 2, category: 'Поставки', task: 'Обработать на 17% больше поставок, чем назначено за неделю (перевыполнение за счет новых поставок)', points: 20 },
+    { id: 3, category: 'Поставки', task: 'Обработать на 20% больше поставок, чем назначено за неделю (перевыполнение за счет новых поставок)', points: 30 },
+    { id: 4, category: 'Поставки', task: 'Обработать на 23% больше поставок, чем назначено за неделю (перевыполнение за счет новых поставок)', points: 40 },
     { id: 5, category: 'Поставки', task: 'Поделиться рабочим лайфхаком на ускорение/эффективность рабочего процесса (Стафф)', points: 50 },
 
     // Телефония
@@ -37,18 +37,18 @@ window.onload = function() {
     { id: 23, category: 'Поставки', task: 'Завести за неделю лидов более чем норма на 2%', points: 20 },
     { id: 24, category: 'Поставки', task: 'Опубликовать в сообществе в Стаффе интересную/смешную ситуацию, связанную с работой/клиентом', points: 20 },
     { id: 25, category: 'Поставки', task: 'Написать в Стаффе статью-рекомендацию (кафе, ресторан, кино, место и тд)', points: 20 },
-    { id: 26, category: 'Поставки', task: 'Баллы "за красивые глаза"', points: 20 },
+
     
     // Дополнительные вопросы для Поставки (30 баллов)
     { id: 27, category: 'Поставки', task: 'Завести за неделю лидов более чем норма на 3%', points: 30 },
     { id: 28, category: 'Поставки', task: 'Провести собрание по рассылкам за неделю внутри офиса', points: 30 },
     { id: 29, category: 'Поставки', task: 'Помоги коллеге - Смена участка на 4 часа', points: 30 },
 
-    { id: 31, category: 'Поставки', task: 'Удача на твоей стороне. Дарим тебе 30 баллов.', points: 30 },
+
     
     // Дополнительные вопросы для Поставки (40 баллов)
     { id: 32, category: 'Поставки', task: 'Завести за неделю лидов более чем норма на 4%', points: 40 },
-    { id: 33, category: 'Поставки', task: 'Получить именной отзыв (разовое)', points: 40 },
+    { id: 33, category: 'Поставки', task: 'Получить именной отзыв от клиента (письменно, на почту, в чат, его сервисы, откус через инцидент)', points: 40 },
     { id: 34, category: 'Поставки', task: 'Придумай сценарий для ближайшего поздравления именинника', points: 40 },
 
     
@@ -79,7 +79,7 @@ window.onload = function() {
     
     // Дополнительные вопросы для Телефонии (40 баллов)
     { id: 52, category: 'Телефония', task: 'Завести за неделю лидов более чем норма на 4%', points: 40 },
-    { id: 53, category: 'Телефония', task: 'Получить именной отзыв (разовое)', points: 40 },
+    { id: 53, category: 'Телефония', task: 'Получить именной отзыв от клиента (письменно, на почту, в чат, его сервисы, откус через инцидент)', points: 40 },
     { id: 54, category: 'Телефония', task: 'Придумай сценарий для ближайшего поздравления именинника', points: 40 },
 
     
@@ -110,7 +110,7 @@ window.onload = function() {
     
     // Дополнительные вопросы для Уникальных участков (40 баллов)
 
-    { id: 74, category: 'Уникальные участки', task: 'Получить именной отзыв (разовое)', points: 40 },
+    { id: 74, category: 'Уникальные участки', task: 'Получить именной отзыв от клиента (письменно, на почту, в чат, его сервисы, откус через инцидент)', points: 40 },
     { id: 75, category: 'Уникальные участки', task: 'Придумай сценарий для ближайшего поздравления именинника', points: 40 },
 
     
@@ -150,6 +150,15 @@ window.onload = function() {
   const closeRulesModalBtn = document.getElementById('closeRulesModalBtn');
   const resultsSection = document.getElementById('resultsSection');
   const resultsTableBody = document.getElementById('resultsTableBody');
+  const resultsModal = document.getElementById('resultsModal');
+  const resultsModalTableBody = document.getElementById('resultsModalTableBody');
+  const closeResultsModalBtn = document.getElementById('closeResultsModalBtn');
+
+  // Проверяем наличие необходимых элементов
+  if (!board) {
+    console.error('Элемент .jeopardy-board не найден');
+    return;
+  }
 
   // Оптимизированный рендер доски
   const categories = ['Поставки', 'Телефония', 'Уникальные участки'];
@@ -178,29 +187,42 @@ window.onload = function() {
   board.innerHTML = boardHTML;
 
   // Оптимизированные обработчики событий
-  showRulesBtn.onclick = function() {
-    rulesModal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  };
+  if (showRulesBtn && rulesModal) {
+    showRulesBtn.onclick = function() {
+      rulesModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    };
+  }
   
-  closeRulesModalBtn.onclick = function() {
-    rulesModal.style.display = 'none';
-    document.body.style.overflow = '';
-  };
+  if (closeRulesModalBtn && rulesModal) {
+    closeRulesModalBtn.onclick = function() {
+      rulesModal.style.display = 'none';
+      document.body.style.overflow = '';
+    };
+  }
+
+  // Обработчики для модального окна результатов
+  if (closeResultsModalBtn && resultsModal) {
+    closeResultsModalBtn.onclick = function() {
+      resultsModal.style.display = 'none';
+      document.body.style.overflow = '';
+    };
+  }
 
   // Навешиваем обработчики на вопросы после рендера
   bindQuestionHandlers();
 
-  document.getElementById('exportExcelBtn').onclick = function() {
-    if (selectedTasks.length === 0) {
-      alert('Нет данных для экспорта!');
-      return;
-    }
-    const ws = XLSX.utils.json_to_sheet(selectedTasks);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Выбор заданий');
-    XLSX.writeFile(wb, 'vybor_zadaniy.xlsx');
-  };
+  // Убираем ссылку на несуществующий элемент exportExcelBtn
+  // document.getElementById('exportExcelBtn').onclick = function() {
+  //   if (selectedTasks.length === 0) {
+  //     alert('Нет данных для экспорта!');
+  //     return;
+  //   }
+  //   const ws = XLSX.utils.json_to_sheet(selectedTasks);
+  //   const wb = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Выбор заданий');
+  //   XLSX.writeFile(wb, 'vybor_zadaniy.xlsx');
+  // };
 
   function renderResultsTable() {
     resultsTableBody.innerHTML = '';
@@ -214,15 +236,90 @@ window.onload = function() {
     resultsTableBody.innerHTML = tableHTML;
   }
 
-  document.getElementById('showResultsBtn').addEventListener('click', function() {
-    if (resultsSection.classList.contains('hidden')) {
-      resultsSection.classList.remove('hidden');
-      resultsSection.classList.add('flex');
-    } else {
-      resultsSection.classList.add('hidden');
-      resultsSection.classList.remove('flex');
+  function loadResultsData() {
+    console.log('Функция loadResultsData вызвана');
+    
+    if (!resultsModalTableBody) {
+      console.error('Элемент resultsModalTableBody не найден');
+      return;
     }
-  });
+    
+    // Данные результатов (можно заменить на загрузку из базы данных)
+    const resultsData = [
+      { surname: 'Романова', points: 50 },
+      { surname: 'Зайцева', points: 50 },
+      { surname: 'Михайловская', points: 40 },
+      { surname: 'Свиридчук', points: 30 },
+      { surname: 'Кузь', points: 30 },
+      { surname: 'Китайцева', points: 30 },
+      { surname: 'Старков', points: 20 },
+      { surname: 'Вербушкина', points: 20 },
+      { surname: 'Белякова', points: 20 },
+      { surname: 'Иванова', points: 10 },
+      { surname: 'Малышева', points: 10 },
+      { surname: 'Пак', points: 10 },
+      { surname: 'Мамедова', points: 10 },
+      { surname: 'Борисова', points: 10 },
+      { surname: 'Попова', points: -10 },
+      { surname: 'Нежинская', points: -20 },
+      { surname: 'Ковалев', points: -20 },
+      { surname: 'Лапшина', points: -40 },
+      { surname: 'Кирсанова', points: -50 }
+    ];
+
+    console.log('Данные результатов:', resultsData);
+
+    // Сортируем по баллам (по убыванию)
+    resultsData.sort((a, b) => b.points - a.points);
+
+         // Создаём HTML для таблицы
+     let tableHTML = '';
+     for (const data of resultsData) {
+       const pointsClass = data.points < 0 ? 'text-red-400 font-bold' : 'text-white font-bold';
+       const rowClass = data.points >= 0 ? 'hover:bg-white hover:bg-opacity-20' : 'hover:bg-red-500 hover:bg-opacity-20';
+       const medal = data.points >= 50 ? '🥇' : data.points >= 30 ? '🥈' : data.points >= 20 ? '🥉' : '';
+       tableHTML += `
+         <tr class="${rowClass} transition-all duration-300" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+           <td class="px-8 py-4 text-white font-semibold text-lg" style="font-family: 'Montserrat', Arial, sans-serif;">
+             ${medal} ${data.surname}
+           </td>
+           <td class="px-8 py-4 text-center ${pointsClass} text-xl" style="font-family: 'Montserrat', Arial, sans-serif;">
+             ${data.points > 0 ? '+' : ''}${data.points}
+           </td>
+         </tr>
+       `;
+     }
+    
+    console.log('HTML таблицы:', tableHTML);
+    resultsModalTableBody.innerHTML = tableHTML;
+    console.log('Таблица обновлена');
+  }
+
+  // Обработчик для кнопки "Показать результаты"
+  const showResultsBtn = document.getElementById('showResultsBtn');
+  console.log('showResultsBtn найден:', showResultsBtn);
+  console.log('resultsModal найден:', resultsModal);
+  
+  if (showResultsBtn) {
+    showResultsBtn.addEventListener('click', function() {
+      console.log('Кнопка "Показать результаты" нажата');
+      
+      if (!resultsModal) {
+        console.error('resultsModal не найден');
+        return;
+      }
+      
+      // Показываем модальное окно с результатами
+      resultsModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      console.log('Модальное окно должно быть видимым');
+      
+      // Загружаем данные результатов
+      loadResultsData();
+    });
+  } else {
+    console.error('Кнопка showResultsBtn не найдена');
+  }
 
   function bindQuestionHandlers() {
     document.querySelectorAll('.question').forEach(question => {
