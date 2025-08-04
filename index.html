@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Своя игра — СуперСопровождение</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+  <header class="w-full text-white py-2 text-center" style="background:none;box-shadow:none;">
+    <div class="logo">
+      <span class="logo-main">СВОЯ</span>
+      <div class="logo-container">
+        <div class="logo-bar"></div>
+        <span class="logo-sub">Игра</span>
+      </div>
+    </div>
+  </header>
+  <main class="flex-1 w-full">
+    <div class="jeopardy-board">
+      <!-- Categories -->
+      <div class="category">Лиды</div>
+      <div class="category">Поставки</div>
+      <div class="category">Телефония</div>
+      <div class="category">Инициативы</div>
+      <div class="category">Командный дух</div>
+      <div class="category">Игровые сюрпризы</div>
+      <div class="category">Уникальные участки</div>
+      <!-- Questions будут добавляться динамически через JS -->
+    </div>
+    <div class="w-full flex justify-center mt-6">
+      <button id="showRulesBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded shadow-lg transition mr-4">Правила</button>
+      <button id="showResultsBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded shadow-lg transition ml-4">Показать результаты</button>
+    </div>
+    <section id="resultsSection" class="w-full flex flex-col items-center mt-8 hidden">
+      <div class="bg-white bg-opacity-20 rounded-lg shadow-lg p-6 max-w-3xl w-full">
+        <h2 class="text-2xl font-bold text-center mb-4 text-white" style="text-shadow:0 0 8px #1e40ff">Результаты недели</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-white text-lg" id="resultsTable">
+            <thead>
+              <tr style="background:rgba(30,64,255,0.25);">
+                <th class="px-4 py-2">Фамилия</th>
+                <th class="px-4 py-2">Баллы</th>
+                <th class="px-4 py-2">Выполнено заданий</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <h2 class="text-2xl font-bold mb-4" id="modalCategory"></h2>
+        <p class="text-lg mb-4" id="modalTask"></p>
+        <p class="text-lg font-bold mb-4" id="modalPoints"></p>
+        <input type="text" id="surnameInput" placeholder="Введите фамилию" class="mb-4 px-3 py-2 w-full rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" style="font-size:1.1rem; font-family: 'Montserrat', Arial, sans-serif;" />
+        <div class="flex justify-center gap-4">
+          <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" id="acceptTaskBtn">Принять задание</button>
+          <button class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600" id="rejectTaskBtn">Отказаться</button>
+          <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" id="closeModalBtn">Закрыть</button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal с правилами -->
+    <div class="modal" id="rulesModal">
+      <div class="modal-content" style="max-width:600px;">
+        <h2 class="text-2xl font-bold mb-4">Правила игры</h2>
+        <div class="text-left text-base mb-6" id="rulesText">
+          <p>🎨 <b>Формат игры:</b><br>Наши задачи напоминают популярное шоу «Своя игра», где участники сражаются за победу, выбирая вопросы разной сложности. Только вместо вопросов — реальные рабочие задания, которые помогут вам развивать профессиональные навыки и выйти за рамки привычной рутины. Каждую неделю появляются новые категории и уровни сложности, а вы сами решаете, какие задачи взять.</p>
+          <hr class="my-3">
+          <p>🏆 <b>Цель конкурса:</b><br>Набрать больше всех баллов и стать чемпионом месяца! Но это не просто счётчик очков — это возможность доказать, что вы один из самых находчивых, быстрых и эффективных специалистов в своей области. Победитель получит признание всей компании и заслуженные награды.</p>
+          <hr class="my-3">
+          <p>📅 <b>Как это работает:</b></p>
+          <ul class="list-disc ml-6">
+            <li><b>Каждую неделю</b> появляются новые задания в разных категорий. Вы сами выбираете, какие выполнять, и сколько баллов хотите заработать.</li>
+            <li>Специалисты, работающие на участках телефонии, выбирают только категорию «Телефония»</li>
+            <li>Специалисты, работающие на участках подготовки поставок (кроме ККТ) и выдачи поставок (кроме ККТ) могут выбирают только категорию «Поставки». Специалисты, работающие на участках: ККТ, Документооборот, Почта, Инциденты могут выбрать только категории «Уникальные процессы».</li>
+            <li>За выполненное задание начисляются баллы согласно выбранной вами ячейке. За не выполненное задание баллы списываются согласно выбранной вами ячейке.</li>
+            <li>В каждой категории есть приятные сюрпризы)</li>
+            <li>Результаты будут обновляться еженедельно, так что интрига сохранится до самого конца!</li>
+            <li>В конце конкурса подведём итоги, и тот, кто наберёт наибольшее количество баллов, станет победителем.</li>
+          </ul>
+          <hr class="my-3">
+          <p>🌟 <b>Почему это важно?</b></p>
+          <ul class="list-disc ml-6">
+            <li>Это первое мероприятие такого формата для Центра сопровождения продаж, и мы хотим сделать его запоминающимся.</li>
+            <li>Участие в конкурсе поможет вам развить новые навыки, расширить кругозор и укрепить командный дух.</li>
+            <li>Это отличная возможность показать, насколько вы целеустремленны и готовы выходить за рамки обычной работы.</li>
+          </ul>
+        </div>
+        <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mt-2" id="closeRulesModalBtn">Закрыть</button>
+      </div>
+    </div>
+    
+    <!-- Modal с результатами -->
+    <div class="modal" id="resultsModal">
+      <div class="modal-content" style="max-width:900px; background: linear-gradient(135deg, #0a23c2 0%, #1e40ff 100%); border: 2px solid rgba(255,255,255,0.2); box-shadow: 0 0 30px rgba(30,64,255,0.5);">
+        <h2 class="text-3xl font-bold mb-6 text-center text-white" style="text-shadow: 0 0 10px rgba(255,255,255,0.5); font-family: 'Montserrat', Arial, sans-serif;">🏆 Результаты недели 🏆</h2>
+        <div class="overflow-x-auto bg-white bg-opacity-10 rounded-lg p-4" style="backdrop-filter: blur(10px);">
+          <table class="min-w-full text-lg" id="resultsModalTable" style="border-collapse: separate; border-spacing: 0;">
+            <thead>
+              <tr style="background: linear-gradient(135deg, rgba(30,64,255,0.8) 0%, rgba(10,35,194,0.8) 100%);">
+                <th class="px-8 py-4 text-left text-white font-bold text-xl" style="border-bottom: 2px solid rgba(255,255,255,0.3);">👤 Фамилия</th>
+                <th class="px-8 py-4 text-center text-white font-bold text-xl" style="border-bottom: 2px solid rgba(255,255,255,0.3);">⭐ Баллы</th>
+              </tr>
+            </thead>
+            <tbody id="resultsModalTableBody">
+              <!-- Данные будут добавляться динамически -->
+            </tbody>
+          </table>
+        </div>
+        <div class="flex justify-center mt-6">
+          <button class="bg-gradient-to-r from-red-500 to-red-600 text-white px-8 py-3 rounded-lg hover:from-red-600 hover:to-red-700 font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg" id="closeResultsModalBtn" style="font-family: 'Montserrat', Arial, sans-serif;">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="w-full bg-blue-900 text-white py-4 text-center">
+    <p>© 2025 Контур| Разработано для лучших отделов сопровождения</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script.js"></script>
+</body>
+</html> 
