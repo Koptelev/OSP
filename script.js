@@ -261,25 +261,24 @@ window.onload = function() {
     
     // Данные результатов (можно заменить на загрузку из базы данных)
     const resultsData = [
-      { surname: 'Романова', points: 50 },
-      { surname: 'Зайцева', points: 50 },
-      { surname: 'Михайловская', points: 40 },
-      { surname: 'Свиридчук', points: 30 },
-      { surname: 'Кузь', points: 30 },
-      { surname: 'Китайцева', points: 30 },
-      { surname: 'Старков', points: 20 },
-      { surname: 'Вербушкина', points: 20 },
-      { surname: 'Белякова', points: 20 },
-      { surname: 'Иванова', points: 10 },
-      { surname: 'Малышева', points: 10 },
-      { surname: 'Пак', points: 10 },
-      { surname: 'Мамедова', points: 10 },
-      { surname: 'Борисова', points: 10 },
-      { surname: 'Попова', points: -10 },
-      { surname: 'Нежинская', points: -20 },
-      { surname: 'Ковалев', points: -20 },
-      { surname: 'Лапшина', points: -40 },
-      { surname: 'Кирсанова', points: -50 }
+      { surname: 'Зайцева', points: 140 },
+      { surname: 'Михайловская', points: 80 },
+      { surname: 'Китайцева', points: 70 },
+      { surname: 'Кузь', points: 70 },
+      { surname: 'Романова', points: 60 },
+      { surname: 'Свиридчук', points: 50 },
+      { surname: 'Белякова', points: 50 },
+      { surname: 'Пак', points: 40 },
+      { surname: 'Борисова', points: 30 },
+      { surname: 'Иванова', points: 20 },
+      { surname: 'Верховых', points: 10 },
+      { surname: 'Вербушкина', points: 10 },
+      { surname: 'Кирсанова', points: 0 },
+      { surname: 'Старков', points: 0 },
+      { surname: 'Ковалев', points: -10 },
+      { surname: 'Малышева', points: -30 },
+      { surname: 'Нежинская', points: -40 },
+      { surname: 'Лапшина', points: -70 }
     ];
 
     console.log('Данные результатов:', resultsData);
