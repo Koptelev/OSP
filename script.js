@@ -259,50 +259,50 @@ window.onload = function() {
       return;
     }
     
-    // Данные результатов (можно заменить на загрузку из базы данных)
-    const resultsData = [
-      { surname: 'Зайцева', points: 140 },
-      { surname: 'Михайловская', points: 80 },
-      { surname: 'Китайцева', points: 70 },
-      { surname: 'Кузь', points: 70 },
-      { surname: 'Романова', points: 60 },
-      { surname: 'Свиридчук', points: 50 },
-      { surname: 'Белякова', points: 50 },
-      { surname: 'Пак', points: 40 },
-      { surname: 'Борисова', points: 30 },
-      { surname: 'Иванова', points: 20 },
-      { surname: 'Верховых', points: 10 },
-      { surname: 'Вербушкина', points: 10 },
-      { surname: 'Кирсанова', points: 0 },
-      { surname: 'Старков', points: 0 },
-      { surname: 'Ковалев', points: -10 },
-      { surname: 'Малышева', points: -30 },
-      { surname: 'Нежинская', points: -40 },
-      { surname: 'Лапшина', points: -70 }
-    ];
+         // Данные результатов (можно заменить на загрузку из базы данных)
+     const resultsData = [
+       { surname: 'Зайцева', points: 190 },
+       { surname: 'Кузь', points: 120 },
+       { surname: 'Китайцева', points: 100 },
+       { surname: 'Свиридчук', points: 80 },
+       { surname: 'Пак', points: 70 },
+       { surname: 'Белякова', points: 70 },
+       { surname: 'Борисова', points: 60 },
+       { surname: 'Морозова', points: 60 },
+       { surname: 'Михайловская', points: 50 },
+       { surname: 'Старков', points: 30 },
+       { surname: 'Иванова', points: 30 },
+       { surname: 'Малышева', points: 20 },
+       { surname: 'Верховых', points: 10 },
+       { surname: 'Вербушкина', points: 10 },
+       { surname: 'Нежинская', points: 10 },
+       { surname: 'Кирсанова', points: -20 },
+       { surname: 'Ковалев', points: -30 },
+       { surname: 'Лапшина', points: -60 }
+     ];
 
     console.log('Данные результатов:', resultsData);
 
     // Сортируем по баллам (по убыванию)
     resultsData.sort((a, b) => b.points - a.points);
 
-         // Создаём HTML для таблицы
-     let tableHTML = '';
-     for (const data of resultsData) {
-       const pointsClass = data.points < 0 ? 'text-red-400 font-bold' : 'text-white font-bold';
-       const rowClass = data.points >= 0 ? 'hover:bg-white hover:bg-opacity-20' : 'hover:bg-red-500 hover:bg-opacity-20';
-       const medal = data.points >= 50 ? '🥇' : data.points >= 30 ? '🥈' : data.points >= 20 ? '🥉' : '';
-       tableHTML += `
-         <tr class="${rowClass} transition-all duration-300" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
-           <td class="px-8 py-4 text-white font-semibold text-lg" style="font-family: 'Montserrat', Arial, sans-serif;">
-             ${medal} ${data.surname}
-           </td>
-           <td class="px-8 py-4 text-center ${pointsClass} text-xl" style="font-family: 'Montserrat', Arial, sans-serif;">
-             ${data.points > 0 ? '+' : ''}${data.points}
-           </td>
-         </tr>
-       `;
-     }
+    // Создаём HTML для таблицы (медали по местам: 1 — 🥇, 2 — 🥈, 3 — 🥉)
+    let tableHTML = '';
+    resultsData.forEach((data, index) => {
+      const pointsClass = data.points < 0 ? 'text-red-400 font-bold' : 'text-white font-bold';
+      const rowClass = data.points >= 0 ? 'hover:bg-white hover:bg-opacity-20' : 'hover:bg-red-500 hover:bg-opacity-20';
+      const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+      tableHTML += `
+        <tr class="${rowClass} transition-all duration-300" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+          <td class="px-8 py-4 text-white font-semibold text-lg" style="font-family: 'Montserrat', Arial, sans-serif;">
+            ${medal} ${data.surname}
+          </td>
+          <td class="px-8 py-4 text-center ${pointsClass} text-xl" style="font-family: 'Montserrat', Arial, sans-serif;">
+            ${data.points > 0 ? '+' : ''}${data.points}
+          </td>
+        </tr>
+      `;
+    });
     
     console.log('HTML таблицы:', tableHTML);
     resultsModalTableBody.innerHTML = tableHTML;
